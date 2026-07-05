@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
   workflow_dispatch:
@@ -9,20 +10,30 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-    
+
     runs-on: ${{ matrix.os }}
     env:
       PIP_BREAK_SYSTEM_PACKAGES: 1
+
     steps:
       - uses: actions/checkout@v2
-        with: 
-          submodules: "recursive"
+        with:
+          submodules: recursive
+
       - name: Install deps
         run: |
-          #apt-get install -y python3-pip
           python3 -m pip install --upgrade pip
           pip install -U platformio
+
       - name: Build AtomS3 CANUnit
         run: |
-         pio run -e m5stack-atoms3-canunit
-         
+          pio run -e m5stack-atoms3-canunit
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: atoms3-canunit-firmware
+          path: |
+            .pio/build/m5stack-atoms3-canunit/*.bin
+            .pio/build/m5stack-atoms3-canunit/*.elf
+            .pio/build/m5stack-atoms3-canunit/*.map
