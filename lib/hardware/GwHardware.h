@@ -133,10 +133,7 @@
 #define N2K_LOAD_LEVEL 3 
 #endif
 
-#ifdef BOARD_M5ATOMS3_CANUNIT
-#define M5_CANUNIT 1
-#define GWLED_BRIGHTNESS 64
-#endif
+
 
 
 #ifdef BOARD_M5ATOM_RS232_CANUNIT
